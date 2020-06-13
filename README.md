@@ -10,15 +10,19 @@
 ## Scripts
 
 
-- `01_merge_facebook_data.R`: Integrates multiple sources, compiling Facebook data of the 2017 legislative campaigns in Chile at the post and candidate levels.
+- `01_merge_facebook_data.R`
+	+ Description: Integrates multiple sources, compiling Facebook data of the 2017 legislative campaigns in Chile at the post and candidate levels.
 	+ Inputs: ...
 	+ Outputs: ... (2 datasets)
-- `02a_get_geo_data.ipynb` and `02b_add_geo_data.R`: Geolocate deployment posts, generating datasets at the post and candidate levels (with geographical information).
+- `02a_get_geo_data.ipynb` and `02b_add_geo_data.R`
+    + Description: Geolocate deployment posts, generating datasets at the post and candidate levels (with geographical information).
 	+ Inputs: ... (outputs from 01)
 	+ Outputs: ... (2 datasets)
-- `03_analyze_clusters`: Executes k-means clustering and generates graphs related to them. Also outputs datasets at the post and candidate levels (with clustering information).
+- `03_analyze_clusters`
+	+ Description: Executes k-means clustering and generates graphs related to them. Also outputs datasets at the post and candidate levels (with clustering information).
 	+ Inputs: ... (outputs from 02)
 	+ Outputs: ... (graphs + 2 datasets)
-- `04_analyze_geo_data`: Generates maps shown in the white paper.
+- `04_analyze_geo_data`
+    + Description: Generates maps shown in the white paper.
 	+ Inputs: ... (dataset outputs from 03)
 	+ Outputs: ... (maps)
