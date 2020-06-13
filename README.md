@@ -16,7 +16,9 @@
 	+ Outputs: ... (2 datasets)
 - `02a_get_geo_data.ipynb` and `02b_add_geo_data.R`
     + Description: Geolocate deployment posts, generating datasets at the post and candidate levels (with geographical information).
-	+ Inputs: ... (outputs from 01 + IBT)
+	+ Inputs:
+	        + `input/geo_data/*`
+		+ ... (outputs from 01 + IBT)
 	+ Outputs: ... (2 datasets)
 - `03_analyze_clusters.R`
 	+ Description: Executes k-means clustering and generates graphs related to them. Also outputs datasets at the post and candidate levels (with clustering information).
