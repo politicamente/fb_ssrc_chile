@@ -21,8 +21,17 @@
 - `03_analyze_clusters.R`
 	+ Description: Executes k-means clustering and generates graphs related to them. Also outputs datasets at the post and candidate levels (with clustering information).
 	+ Inputs: ... (outputs from 02)
-	+ Outputs: ... (graphs + 2 datasets)
+	+ Outputs: 
+		+ `output/03_fig3_clusters_factors.png` 
+		+ `output/03_fig4_clusters_candidate_vars.png` 
+		+ `output/03_fig6_clusters_campaign_vars.png`
+		+ (+ 2 datasets)
 - `04_analyze_geo_data.R`
     + Description: Generates maps shown in the white paper.
 	+ Inputs: ... (dataset outputs from 03)
 	+ Outputs: ... (maps)
+- `05_estimate_stm.R`
+	+ Description: Estimates the structural topic model shown in the white paper.
+	+ Inputs: ... (dataset outputs from 03)
+	+ Outputs: 
+		+ `output/05_fig7_topics.png`.
