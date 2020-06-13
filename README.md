@@ -18,11 +18,11 @@
     + Description: Geolocate deployment posts, generating datasets at the post and candidate levels (with geographical information).
 	+ Inputs: ... (outputs from 01 + IBT)
 	+ Outputs: ... (2 datasets)
-- `03_analyze_clusters`
+- `03_analyze_clusters.R`
 	+ Description: Executes k-means clustering and generates graphs related to them. Also outputs datasets at the post and candidate levels (with clustering information).
 	+ Inputs: ... (outputs from 02)
 	+ Outputs: ... (graphs + 2 datasets)
-- `04_analyze_geo_data`
+- `04_analyze_geo_data.R`
     + Description: Generates maps shown in the white paper.
 	+ Inputs: ... (dataset outputs from 03)
 	+ Outputs: ... (maps)
