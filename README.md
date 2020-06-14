@@ -25,11 +25,14 @@
 - **`02a_get_geo_data.ipynb`** and **`02b_add_geo_data.R`**
   + **Description:** Geolocate deployment posts, generating datasets at the post and candidate levels (with geographical information).
   + **Inputs:** 
-    + `input/geo_data/*`
-    + ... (outputs from 01 + IBT)
+    + `input/geo_data/ibt_geo.shp`
+    + `input/data_deployment/posts_deployment.csv`
+    + `proc/01_facebook_data_candidate.rds`
+    + `proc/01_facebook_data_post.rds`
   + **Outputs:** 
-    + ... (2 datasets)
-  
+    + `proc/01_facebook_data_candidate_nse.rds`
+    + `proc/01_facebook_data_posts_nse.rds`
+    + `proc/posts_deployment_nse.csv`
 - **`03_analyze_clusters.R`**
   + **Description:** Executes k-means clustering and generates graphs related to them. Also outputs datasets at the post and candidate levels (with clustering information).
   + **Inputs:** 
