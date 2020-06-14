@@ -16,7 +16,7 @@ fb_data_candidate  <- read_rds(here("proc", "01_facebook_data_candidate.rds"))
 
 # load data posts deployment
 
-posts_geo_nse <- read_csv(here("proc", "posts_deployment_nse.csv"), 
+posts_geo_nse <- read_csv(here("proc", "02_posts_deployment_nse.csv"), 
                                 col_types = cols(id_post_u = col_character()))# 1227 posts from politicamente + crowdtangle with geographical data.
                         
 
