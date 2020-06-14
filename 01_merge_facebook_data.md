@@ -17,7 +17,6 @@ library(tidyverse)
 ```
 
 ##### Crowdtangle
-
 ``` r
 df_crowdtangle <- read_csv("input/facebook_data//df_crowdtangle.csv") %>% 
   mutate(id_post = post_url %>% 
@@ -66,7 +65,7 @@ df_condor_urls <- df_condor_urls %>%
          url_blurb = share_main_blurb, contains("feedback"))
 ```
 
-### Merge Datasets (post level)
+### Merge Datasets (Post Level)
 
 First, we prepare `df_crowdtangle` data
 
@@ -161,8 +160,7 @@ Save dataframe
 write_rds(df_ct_pt_urls, "proc/01_facebook_data_post.rds")
 ```
 
-### Merge Datasets (candidate level)
-
+### Merge Datasets (Candidate Level)
 Now we are going to group the data at the candidate level for future
 analysis. This dataset only includes candidates competing in the
 districts 10, 11 and 13, which are the focus of this paper.
@@ -176,7 +174,7 @@ df_facebook <- df_facebook %>%
 ```
 
 First we summarise number of posts by candidate and then the number of
-posts of each type (from codif\_macro\_1) by candidate
+posts of each type (from codif_macro1) by candidate
 
 ``` r
 # first we group by candidate
