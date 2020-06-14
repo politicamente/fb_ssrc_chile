@@ -173,9 +173,7 @@ df_facebook <- df_facebook %>%
   mutate_if(is.numeric, function(x) ifelse(is.infinite(x), 0, x))
 ```
 
-First we summarise number of posts by candidate and then the number of
-posts of each type (from codif_macro1) by candidate
-
+First we summarise the number of posts per candidate and then the number of each type of posts by candidate
 ``` r
 # first we group by candidate
 
