@@ -1,22 +1,24 @@
----
-title: "Merge Facebook Data"
-output: github_document
----
+Merge Facebook Data
+================
 
-This script integrates multiple sources, compiling Facebook data of the 2017 legislative campaigns in Chile at the post and candidate levels.
+This script integrates multiple sources, compiling Facebook data of the
+2017 legislative campaigns in Chile at the post and candidate levels.
 
-1. `df_crowdtangle`: facebook data from crowdtangle API
-2. `politicamente`: three datasets with post, coding of these posts and candidate data
-3. `df_condor_urls`: shared urls by candidates from the condor dataset
+1.  `df_crowdtangle`: facebook data from crowdtangle API
+2.  `politicamente`: three datasets with post, coding of these posts and
+    candidate data
+3.  `df_condor_urls`: shared urls by candidates from the condor dataset
 
-```{r message=FALSE}
+<!-- end list -->
+
+``` r
 #load packages
 library(tidyverse)
 ```
 
 ##### Crowdtangle
 
-```{r error=FALSE, message=FALSE, warning=FALSE}
+``` r
 df_crowdtangle <- read_csv("input/facebook_data//df_crowdtangle.csv") %>% 
   mutate(id_post = post_url %>% 
            str_extract("posts/\\d+$") %>% 
@@ -25,7 +27,7 @@ df_crowdtangle <- read_csv("input/facebook_data//df_crowdtangle.csv") %>%
 
 ##### Politicamente
 
-```{r error=FALSE, message=FALSE,warning=FALSE}
+``` r
 df_politicamente_posts <- read_csv("input/facebook_data/politicamente_be17_v4_posts-facebook.csv") %>% 
   mutate(id_post = id %>% 
            str_extract("_\\d+$") %>% 
@@ -34,11 +36,9 @@ df_politicamente_posts <- read_csv("input/facebook_data/politicamente_be17_v4_po
 df_politicamente_codif <- read_csv("input/facebook_data/politicamente_be17_v5_codificaciones.csv")
 
 df_politicamente_cands <- read_csv("input/facebook_data/politicamente_be17_v5_candidatos.csv")
-
 ```
 
-
-```{r error=FALSE, message=FALSE,warning=FALSE}
+``` r
 df_politicamente <- df_politicamente_posts %>% 
   left_join(df_politicamente_codif) %>% 
   select(id_post, mensaje_id, facebook_id, everything(), -id) %>% 
@@ -52,11 +52,11 @@ df_politicamente <- df_politicamente_posts %>%
     ingreso_total, votos, votos_pct, d_incumbente_gen, d_gano
   ) %>% 
   mutate(d_pol = 1L, d_ct = 0)
-
 ```
 
 ##### Condor URLs
-```{r error=FALSE,message=FALSE,warning=FALSE}
+
+``` r
 df_condor_urls <- read_delim("input/facebook_data/df_condor_urls.csv", 
                           ";", escape_double = FALSE, trim_ws = TRUE)
 
@@ -69,7 +69,8 @@ df_condor_urls <- df_condor_urls %>%
 ### Merge Datasets (post level)
 
 First, we prepare `df_crowdtangle` data
-```{r error=FALSE, message=FALSE,warning=FALSE}
+
+``` r
 df_crowdtangle_std <- df_crowdtangle %>% 
   select(id_post, facebook_id = page_id, from_name = page_name, 
          created_time = time_created, message = post_message,
@@ -103,7 +104,8 @@ df_crowdtangle_std <- df_crowdtangle %>%
 ```
 
 Prepare `df_politicamente` data
-```{r error=FALSE, message=FALSE, warning=FALSE}
+
+``` r
 df_politicamente <- df_politicamente %>% 
   select(id_post, facebook_id, from_name, created_time, message,
          type, link,
@@ -123,11 +125,11 @@ df_politicamente <- df_politicamente %>%
          #reactions:
          comments_count, shares_count, likes_count, love_count, wow_count,
          haha_count, sad_count, angry_count) 
-
 ```
 
 Now we merge the datasets
-```{r error=FALSE, message=FALSE, warning=FALSE}
+
+``` r
 df_ct_pt <- bind_rows(df_politicamente, df_crowdtangle_std) %>% 
   select(id_post:link, link_text, link_description, overperforming_score,
          everything()) %>% distinct(id_post, .keep_all = TRUE)
@@ -137,8 +139,10 @@ df_urls <- df_urls %>% left_join(df_condor_urls)
 df_ct_pt_urls <- df_ct_pt %>% left_join(df_urls)
 ```
 
-We add two more variables: post lenght and percentage of multimedia posts per candidate
-```{r error=FALSE, warning=FALSE, message=FALSE}
+We add two more variables: post lenght and percentage of multimedia
+posts per candidate
+
+``` r
 variables <- df_ct_pt_urls %>% 
   mutate(d_multimedia = if_else(str_detect(type, "(ideo)|(hoto)"), 1L, 0L)) %>% 
   filter(!is.na(candidate_id)) %>% 
@@ -152,15 +156,18 @@ df_ct_pt_urls <- left_join(df_ct_pt_urls, variables)
 ```
 
 Save dataframe
-```{r}
+
+``` r
 write_rds(df_ct_pt_urls, "proc/01_facebook_data_post.rds")
 ```
 
 ### Merge Datasets (candidate level)
-Now we are going to group the data at the candidate level for future analysis. This dataset only includes candidates competing in the districts 10, 11 and 13, which are the focus of this paper.
 
-```{r error=FALSE, message=FALSE, warning=FALSE}
+Now we are going to group the data at the candidate level for future
+analysis. This dataset only includes candidates competing in the
+districts 10, 11 and 13, which are the focus of this paper.
 
+``` r
 df_facebook <- read_rds("proc/01_facebook_data_post.rds")  
 
 df_facebook <- df_facebook %>% 
@@ -168,8 +175,10 @@ df_facebook <- df_facebook %>%
   mutate_if(is.numeric, function(x) ifelse(is.infinite(x), 0, x))
 ```
 
-First we summarise number of posts by candidate and then the number of posts of each type (from codif_macro_1) by candidate
-```{r error=FALSE, message=FALSE, warning=FALSE}
+First we summarise number of posts by candidate and then the number of
+posts of each type (from codif\_macro\_1) by candidate
+
+``` r
 # first we group by candidate
 
 df_facebook_candidate <- df_facebook %>%
@@ -204,11 +213,11 @@ df_facebook_all <- df_facebook_candidate %>% #Merge all
   left_join(., df_facebook_B, by="candidate") %>%
   left_join(., df_facebook_C, by="candidate") %>%
   left_join(., df_facebook_D, by="candidate")
-
 ```
 
 Then we summarise facebook states by candidate
-```{r error=FALSE, message=FALSE, warning=FALSE}
+
+``` r
 df_likes <- df_facebook  %>%
   group_by(candidate) %>%
   summarise(sum_likes=sum(likes_count)) 
@@ -255,7 +264,8 @@ df_facebook_all <- df_facebook_all %>%
 ```
 
 Now we compute the mean of facebook stats for each candidate
-```{r error=FALSE, message=FALSE, warning=FALSE}
+
+``` r
 df_likesm <- df_facebook  %>%
   group_by(candidate) %>%
   summarise(mean_likes=mean(likes_count)) 
@@ -300,8 +310,11 @@ df_facebook_all <- df_facebook_all %>%
   left_join(., df_sharesm, by="candidate")
 ```
 
-The final step is merging with candidate level variables from `01_merge_facebook_data_post.rds` and save the new candidate level dataset
-```{r error=FALSE, warning=FALSE, message=FALSE}
+The final step is merging with candidate level variables from
+`01_merge_facebook_data_post.rds` and save the new candidate level
+dataset
+
+``` r
 df_facebook <- df_facebook %>% 
   select(candidate, candidate_district,coalition, list, party,
          candidate_birth, d_women, d_incumbent_gen,
@@ -314,4 +327,3 @@ df_facebook_candidate <- df_facebook_all %>% left_join(df_facebook) %>%
 #Save dataframe 
 write_rds(df_facebook_candidate, "proc/01_facebook_data_candidate.rds")
 ```
-
