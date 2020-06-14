@@ -13,9 +13,14 @@
 - **`01_merge_facebook_data.R`**
   + **Description:** Integrates multiple sources, compiling Facebook data of the 2017 legislative campaigns in Chile at the post and candidate levels.
   + **Inputs:** 
-    + ...
+    + `df_condor_urls.csv`
+    + `df_crowdtangle.csv`
+    + `politicamente_be17_v4_posts-facebook.csv`
+    + `politicamente_be17_v5_candidatos.csv`
+    + `politicamente_be17_v5_codificaciones.csv`
   + **Outputs:** 
-    + ... (2 datasets)
+    + `01_facebook_data_post.rds`
+    + `01_facebook_data_candidate.rds`
 
 - **`02a_get_geo_data.ipynb`** and **`02b_add_geo_data.R`**
   + **Description:** Geolocate deployment posts, generating datasets at the post and candidate levels (with geographical information).
