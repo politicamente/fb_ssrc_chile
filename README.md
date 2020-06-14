@@ -32,7 +32,7 @@
   + **Outputs:** 
     + `proc/02_facebook_data_candidate_nse.rds`
     + `proc/02_facebook_data_posts_nse.rds`
-    + `proc/posts_deployment_nse.csv`
+    + `proc/02_posts_deployment_nse.csv`
 - **`03_analyze_clusters.R`**
   + **Description:** Executes k-means clustering and generates graphs related to them. Also outputs datasets at the post and candidate levels (with clustering information).
   + **Inputs:** 
