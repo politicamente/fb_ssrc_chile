@@ -10,7 +10,7 @@
 ## Scripts
 
 
-- **`01_merge_facebook_data.R`**
+- **`01_merge_facebook_data.Rmd`**
   + **Description:** Integrates multiple sources, compiling Facebook data of the 2017 legislative campaigns in Chile at the post and candidate levels.
   + **Inputs:** 
     + `input/facebook_data/df_condor_urls.csv`
