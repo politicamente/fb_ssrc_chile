@@ -35,8 +35,13 @@ df_politicamente_codif <- read_csv("input/facebook_data/politicamente_be17_v6_co
 
 df_politicamente_cands <- read_csv("input/facebook_data/politicamente_be17_v6_candidatos.csv")
 
+df_politicamente_tweets <- read_csv(
+  "input/facebook_data/politicamente_be17_v6_tweets.csv"
+) %>% 
+  count(twitter_id) %>% 
+  rename(n_tweets = n) %>% 
+  left_join(df_politicamente_cands %>% select(candidato_id, twitter_id))
 ```
-
 
 ```{r error=FALSE, message=FALSE,warning=FALSE}
 df_politicamente <- df_politicamente_posts %>% 
@@ -300,7 +305,7 @@ df_facebook_all <- df_facebook_all %>%
   left_join(., df_sharesm, by="candidate")
 ```
 
-The final step is merging with candidate level variables from `01_merge_facebook_data_post.rds` and save the new candidate level dataset
+The we merge this with candidate-level variables from `01_merge_facebook_data_post.rds`
 ```{r error=FALSE, warning=FALSE, message=FALSE}
 df_facebook <- df_facebook %>% 
   select(candidate, candidate_district,coalition, list, party,
@@ -310,6 +315,14 @@ df_facebook <- df_facebook %>%
          
 df_facebook_candidate <- df_facebook_all %>% left_join(df_facebook) %>% 
   distinct(candidate, .keep_all = TRUE)
+```
+
+Finally, we add the number of tweets to our dataset and save it:
+
+```{r}
+df_facebook_candidate <- df_facebook_candidate %>% 
+  left_join(df_politicamente_tweets %>% select(candidate_id = candidato_id,
+                                               n_tweets))
 
 #Save dataframe 
 write_rds(df_facebook_candidate, "proc/01_facebook_data_candidate.rds")
