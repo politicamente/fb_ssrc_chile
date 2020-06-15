@@ -15,9 +15,9 @@
   + **Inputs:** 
     + `input/facebook_data/df_condor_urls.csv`
     + `input/facebook_data/df_crowdtangle.csv`
-    + `input/facebook_data/politicamente_be17_v4_posts-facebook.csv`
-    + `input/facebook_data/politicamente_be17_v5_candidatos.csv`
-    + `input/facebook_data/politicamente_be17_v5_codificaciones.csv`
+    + `input/facebook_data/politicamente_be17_v6_posts-facebook.csv`
+    + `input/facebook_data/politicamente_be17_v6_candidatos.csv`
+    + `input/facebook_data/politicamente_be17_v6_codificaciones.csv`
   + **Outputs:** 
     + `proc/01_facebook_data_post.rds`
     + `proc/01_facebook_data_candidate.rds`

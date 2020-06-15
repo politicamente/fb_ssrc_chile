@@ -7,7 +7,7 @@ This script integrates multiple sources, compiling Facebook data of the
 1.  `df_crowdtangle`: facebook data from crowdtangle API
 2.  `politicamente`: three datasets with post, coding of these posts and
     candidate data
-3.  `df_condor_urls`: shared urls by candidates from the condor dataset
+3.  `df_condor_urls`: vshared urls by candidates from the condor dataset
 
 <!-- end list -->
 
@@ -27,14 +27,14 @@ df_crowdtangle <- read_csv("input/facebook_data//df_crowdtangle.csv") %>%
 ##### Politicamente
 
 ``` r
-df_politicamente_posts <- read_csv("input/facebook_data/politicamente_be17_v4_posts-facebook.csv") %>% 
+df_politicamente_posts <- read_csv("input/facebook_data/politicamente_be17_v6_posts-facebook.csv") %>% 
   mutate(id_post = id %>% 
            str_extract("_\\d+$") %>% 
            str_remove("_"))
 
-df_politicamente_codif <- read_csv("input/facebook_data/politicamente_be17_v5_codificaciones.csv")
+df_politicamente_codif <- read_csv("input/facebook_data/politicamente_be17_v6_codificaciones.csv")
 
-df_politicamente_cands <- read_csv("input/facebook_data/politicamente_be17_v5_candidatos.csv")
+df_politicamente_cands <- read_csv("input/facebook_data/politicamente_be17_v6_candidatos.csv")
 ```
 
 ``` r

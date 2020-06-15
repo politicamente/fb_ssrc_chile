@@ -26,14 +26,14 @@ df_crowdtangle <- read_csv("input/facebook_data//df_crowdtangle.csv") %>%
 ##### Politicamente
 
 ```{r error=FALSE, message=FALSE,warning=FALSE}
-df_politicamente_posts <- read_csv("input/facebook_data/politicamente_be17_v4_posts-facebook.csv") %>% 
+df_politicamente_posts <- read_csv("input/facebook_data/politicamente_be17_v6_posts-facebook.csv") %>% 
   mutate(id_post = id %>% 
            str_extract("_\\d+$") %>% 
            str_remove("_"))
 
-df_politicamente_codif <- read_csv("input/facebook_data/politicamente_be17_v5_codificaciones.csv")
+df_politicamente_codif <- read_csv("input/facebook_data/politicamente_be17_v6_codificaciones.csv")
 
-df_politicamente_cands <- read_csv("input/facebook_data/politicamente_be17_v5_candidatos.csv")
+df_politicamente_cands <- read_csv("input/facebook_data/politicamente_be17_v6_candidatos.csv")
 
 ```
 
