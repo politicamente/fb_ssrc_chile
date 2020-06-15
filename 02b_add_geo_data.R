@@ -51,7 +51,8 @@ posts_geo_candidate <- posts_geo_nse %>%
   
   group_by(candidate) %>%
   
-  summarise(mean_nse=mean(nse))
+  summarise(mean_nse=mean(nse),
+            n_posts_deployment= n())
 
 
 
