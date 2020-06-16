@@ -7,6 +7,9 @@
 **Version:** 0.2. 
   + The following correction was made from v0.1: two candidates (out of 80) had to be excluded from k-means clustering, as they are not present in Políticamente's dataset. This does not change the main results of the white paper.
 
+**Replication instructions:** Download/clone this repository and run its scripts in order, maintaining the folder structure (for example, using RStudio and Jupyter Lab).
+  + Tested with R 4.0.0. Required packages: `tidyverse`, `here`, `glue`, `sf`, `RColorBrewer`, `tmap`, `tmaptools`.
+  + Tested with Python 3.7.6. Required libraries: `geopandas`, `shapely`, `scipy`, `numpy`, `pandas`.
 
 ## Scripts
 
@@ -45,7 +48,7 @@
     + `output/03_fig6_clusters_campaign_vars.png`
     + `proc/03_facebook_data_candidate_nse_cl.rds`
     + `proc/03_facebook_data_posts_nse_cl.rds`
-- **`04_analyze_geo_data.R`**
+- **`04_analyze_geo_data.Rmd`**
   + **Description:** Generates maps shown in the white paper.
   + **Inputs:** 
     + `proc/03_facebook_data_candidate_nse_cl.rds`
@@ -54,10 +57,10 @@
     + `output/04_map_c1.png`
     + `output/04_map_c2.png`
     + `output/04_map_c3.png`
-- **`05_estimate_stm.R`**
+- **`05_estimate_stm.Rmd`**
   + **Description:** Estimates the structural topic model shown in the white paper.
   + **Inputs:** 
     + `proc/03_facebook_data_candidate_nse_cl.rds`
     + `proc/03_facebook_data_posts_nse_cl.rds`
   + **Outputs:** 
-    + `output/05_fig7_topics.png`.
+    + `output/05_fig7_topics.png`
