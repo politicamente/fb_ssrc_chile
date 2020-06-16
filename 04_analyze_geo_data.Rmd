@@ -78,6 +78,7 @@ posts_deployment_nse <- read_csv(here( "proc","02_posts_deployment_nse.csv"))
 
 fb_data_candidate_nse_cl <- read_rds(here("proc","03_facebook_data_candidate_nse_cl.rds"))
 
+fb_data_posts_nse_cl <- read_rds(here("proc","03_facebook_data_posts_nse_cl.rds"))
 
 
 ```
@@ -214,5 +215,30 @@ tmap_save(cluster_1, 'output/04_map_c1.png', width = 1920, height = 1080)
 tmap_save(cluster_2, 'output/04_map_c2.png', width = 1920, height = 1080)
 tmap_save(cluster_3, 'output/04_map_c3.png', width = 1920, height = 1080)
 
+```
+
+
+### Ext joins and save data
+
+Select and join:
+
+```{r warning=FALSE, message=FALSE}
+fb_data_posts_nse_cl <- fb_data_posts_nse_cl %>%
+  
+  select(id_post, link, d_incumbent_gen)
+
+posts_geo_nse_cl$id_post_u <- as.character(posts_geo_nse_cl$id_post_u)
+posts_geo_nse_cl <- posts_geo_nse_cl %>%
+  
+  left_join(fb_data_posts_nse_cl, by=c("id_post_u"="id_post"))
+
+
+```
+
+Save data 04_:
+
+
+```{r}
+write_rds( posts_geo_nse_cl,"proc/04_posts_geo_nse_cl_lf.rds")
 ```
 
