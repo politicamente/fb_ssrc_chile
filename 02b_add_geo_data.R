@@ -60,7 +60,7 @@ fb_data_candidate_nse <- fb_data_candidate %>%
   
   left_join(posts_geo_candidate, by="candidate")
 
-
+fb_data_candidate_nse$n_posts_deployment[is.na(fb_data_candidate_nse$n_posts_deployment)] <- 0
 
 
 # save data 
