@@ -4,11 +4,12 @@
 
 **Authors:** Luna, Pérez, Toro, Rosenblatt, Alcatruz, Bro, Cruz, and Escobar
 
-**Version:** 0.2. 
-  + The following correction was made from v0.1: two candidates (out of 80) had to be excluded from k-means clustering, as they are not present in Políticamente's dataset. This does not change the main results of the white paper.
+**Version:** 0.2. The following corrections were made from v0.1 (that do not change the main results of the white paper): 
+  + Two candidates (out of 80) had to be excluded from k-means clustering, as they are not present in Políticamente's dataset. 
+  + Whenever possible, now post messages are retrieved from Políticamente, as Crowdtangle's are sometimes trimmed. This increases the words that serve as input to the structural topic model.
 
 **Replication instructions:** Download/clone this repository and run its scripts in order, maintaining the folder structure (for example, using RStudio and Jupyter Lab).
-  + Tested with R 4.0.0. Required packages: `tidyverse`, `here`, `glue`, `sf`, `RColorBrewer`, `tmap`, `tmaptools`.
+  + Tested with R 4.0.0. Required packages: `tidyverse`, `here`, `glue`, `sf`, `RColorBrewer`, `tmap`, `tmaptools`, `janitor`, `tidytext`, `stm`, `ggthemes`, `cowplot`.
   + Tested with Python 3.7.6. Required libraries: `geopandas`, `shapely`, `scipy`, `numpy`, `pandas`.
 
 ## Scripts
@@ -60,7 +61,9 @@
 - **`05_estimate_stm.Rmd`**
   + **Description:** Estimates the structural topic model shown in the white paper.
   + **Inputs:** 
+    + `input/BDCUT_CL__CSV_UTF8.csv`
     + `proc/03_facebook_data_candidate_nse_cl.rds`
     + `proc/03_facebook_data_posts_nse_cl.rds`
   + **Outputs:** 
     + `output/05_fig7_topics.png`
+    + `proc/05_many_models.rds`
