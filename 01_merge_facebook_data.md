@@ -164,9 +164,9 @@ variables <- df_ct_pt_urls %>%
   mutate(d_multimedia = if_else(str_detect(type, "(ideo)|(hoto)"), 1L, 0L)) %>% 
   filter(!is.na(candidate_id)) %>% 
   group_by(candidate_id) %>% 
-  summarize(chr_conteo_mediano = median(str_count(str_squish(message)),
+  summarize(median_chr_length = median(str_count(str_squish(message)),
                                         na.rm = T),
-            porc_multimedia = 100 * mean(d_multimedia, na.rm = T)) %>% 
+            multimedia_perc = 100 * mean(d_multimedia, na.rm = T)) %>% 
   ungroup()
 
 df_ct_pt_urls <- left_join(df_ct_pt_urls, variables)
