@@ -1,4 +1,4 @@
-Untitled
+Add geo data and generate datasets at the post and candidate levels
 ================
 
 ### Load libraries
@@ -52,8 +52,11 @@ posts_geo_candidate <- posts_geo_nse %>%
   
   summarise(mean_nse=mean(nse),
             n_posts_deployment= n())
+```
 
+    ## `summarise()` ungrouping output (override with `.groups` argument)
 
+``` r
 fb_data_candidate_nse <- fb_data_candidate %>%
   
   left_join(posts_geo_candidate, by="candidate")
@@ -68,6 +71,6 @@ fb_data_candidate_nse$n_posts_deployment[is.na(fb_data_candidate_nse$n_posts_dep
 ### Save data
 
 ``` r
-write_rds(fb_data_post_nse, "proc/02_fb_data_posts_nse.rds")
-write_rds(fb_data_candidate_nse, "proc/02_fb_data_candidate_nse.rds")
+write_rds(fb_data_post_nse, here("proc", "02_fb_data_posts_nse.rds"))
+write_rds(fb_data_candidate_nse, here("proc", "02_fb_data_candidate_nse.rds"))
 ```

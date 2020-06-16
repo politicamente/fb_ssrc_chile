@@ -21,7 +21,7 @@ Shapefiles:
 ibt <- st_read(here("input","geo_data","ibt","ibt_geo.shp"))
 ```
 
-    ## Reading layer `ibt_geo' from data source `D:\2020_w\data_facebook\fb_ssrc_ch\input\geo_data\ibt\ibt_geo.shp' using driver `ESRI Shapefile'
+    ## Reading layer `ibt_geo' from data source `/home/andres/gdrive/github/fb_ssrc_chile/input/geo_data/ibt/ibt_geo.shp' using driver `ESRI Shapefile'
     ## Simple feature collection with 54908 features and 4 fields
     ## geometry type:  POLYGON
     ## dimension:      XY
@@ -32,7 +32,7 @@ ibt <- st_read(here("input","geo_data","ibt","ibt_geo.shp"))
 shp_com<- st_read(here("input","geo_data","shp_com","shp_com.shp"))
 ```
 
-    ## Reading layer `shp_com' from data source `D:\2020_w\data_facebook\fb_ssrc_ch\input\geo_data\shp_com\shp_com.shp' using driver `ESRI Shapefile'
+    ## Reading layer `shp_com' from data source `/home/andres/gdrive/github/fb_ssrc_chile/input/geo_data/shp_com/shp_com.shp' using driver `ESRI Shapefile'
     ## Simple feature collection with 52 features and 8 fields
     ## geometry type:  POLYGON
     ## dimension:      XY
@@ -44,9 +44,9 @@ Prepare shapefiles:
 ``` r
 ibt <- ibt[!is.na(ibt$nse),]
 ibt_10_11_13_com <- ibt %>%
-  filter(ibt, comuna %in% c("PROVIDENCIA", "ÑUÑOA", "SANTIAGO","MACUL","SAN JOAQUÍN",
-                            "LA GRANJA","LAS CONDES", "VITACURA", "LO BARNECHEA","LA REINA","PEÑALOLÉN",
-                            "EL BOSQUE", "SAN RAMÓN", "PEDRO AGUIRRE CERDA","SAN MIGUEL","LO ESPEJO", "LA CISTERNA"))
+  filter(comuna %in% c("PROVIDENCIA", "ÑUÑOA", "SANTIAGO","MACUL","SAN JOAQUÍN",
+                       "LA GRANJA","LAS CONDES", "VITACURA", "LO BARNECHEA","LA REINA","PEÑALOLÉN",
+                       "EL BOSQUE", "SAN RAMÓN", "PEDRO AGUIRRE CERDA","SAN MIGUEL","LO ESPEJO", "LA CISTERNA"))
 
 
 shp_10_11_13_dis <- shp_com %>% 
@@ -76,6 +76,8 @@ shp_10_11_13_dis <- shp_10_11_13_dis %>%
   
   summarize(n= n())
 ```
+
+    ## `summarise()` ungrouping output (override with `.groups` argument)
 
 Data posts deployment and candidate data:
 
@@ -229,9 +231,12 @@ cluster_3
 ### Save plots
 
 ``` r
-tmap_save(cluster_1, 'output/04_map_c1.png', width = 1920, height = 1080)
-tmap_save(cluster_2, 'output/04_map_c2.png', width = 1920, height = 1080)
-tmap_save(cluster_3, 'output/04_map_c3.png', width = 1920, height = 1080)
+tmap_save(cluster_1, here('output', '04_map_c1.png'), 
+          width = 1920, height = 1080)
+tmap_save(cluster_2, here('output', '04_map_c2.png'),
+          width = 1920, height = 1080)
+tmap_save(cluster_3, here('output', '04_map_c3.png'), 
+          width = 1920, height = 1080)
 ```
 
 ### Ext joins and save data
@@ -249,8 +254,8 @@ posts_geo_nse_cl <- posts_geo_nse_cl %>%
   left_join(fb_data_posts_nse_cl, by=c("id_post_u"="id_post"))
 ```
 
-Save data 04\_:
+Save data:
 
 ``` r
-write_rds( posts_geo_nse_cl,"proc/04_posts_geo_nse_cl_lf.rds")
+write_rds( posts_geo_nse_cl, here("proc", "04_posts_geo_nse_cl_lf.rds"))
 ```

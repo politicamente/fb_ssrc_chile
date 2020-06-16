@@ -7,15 +7,14 @@ Load packages:
 
 ``` r
 library(tidyverse)
-library(haven)
-library(tidytext)
 library(glue)
+library(here)
 ```
 
 Load data:
 
 ``` r
-candidates <- read_rds("proc/02_fb_data_candidate_nse.rds") %>% 
+candidates <- read_rds(here("proc", "02_fb_data_candidate_nse.rds")) %>% 
   # only keep Políticamente candidates (for which we have hand-coded post intentions)
   filter(d_pol == 1L)
 ```
@@ -193,7 +192,7 @@ fig3
 ![](03_analyze_clusters_files/figure-gfm/unnamed-chunk-14-1.png)<!-- -->
 
 ``` r
-ggsave(plot = fig3, filename = "output/03_fig3_clusters_factors.png", 
+ggsave(plot = fig3, filename = here("output", "03_fig3_clusters_factors.png"),
        width = 12, height = 5)
 ```
 
@@ -358,7 +357,7 @@ fig6_combined
 
 ``` r
 ggsave(plot = fig6_combined + plot_annotation(title = "Distribution of campaign-related variables, divided by cluster"), 
-       filename = "output/03_fig6_clusters_campaign_vars.png", 
+       filename = here("output", "03_fig6_clusters_campaign_vars.png"), 
        width = 6, height = 7)
 ```
 
@@ -440,7 +439,7 @@ fig4_combined <- fig4_age / fig4_gender
 
 ``` r
 ggsave(plot = fig4_combined + plot_annotation(title = "Distribution of candidate-related variables, divided by cluster"), 
-       filename = "output/03_fig4_clusters_candidate_vars.png", 
+       filename = here("output", "03_fig4_clusters_candidate_vars.png"), 
        width = 6, height = 5)
 ```
 
@@ -451,16 +450,16 @@ Candidates:
 ``` r
 write_rds(
   candidates4 %>% select(-starts_with("cluster_k"), -matches("n_posts.*_pct")),
-  "proc/03_facebook_data_candidate_nse_cl.rds"
+  here("proc", "03_facebook_data_candidate_nse_cl.rds")
 )
 ```
 
 Posts:
 
 ``` r
-read_rds("proc/02_fb_data_posts_nse.rds") %>% 
+read_rds(here("proc", "02_fb_data_posts_nse.rds")) %>% 
   left_join(candidates4 %>% select(candidate_id, cluster_sel, n_cl)) %>% 
-  write_rds("proc/03_facebook_data_posts_nse_cl.rds")
+  write_rds(here("proc", "03_facebook_data_posts_nse_cl.rds"))
 ```
 
     ## Joining, by = "candidate_id"

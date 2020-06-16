@@ -14,12 +14,14 @@ This script integrates multiple sources, compiling Facebook data of the
 ``` r
 #load packages
 library(tidyverse)
+library(here)
 ```
 
 ##### Crowdtangle
 
 ``` r
-df_crowdtangle <- read_csv("input/facebook_data//df_crowdtangle.csv") %>% 
+df_crowdtangle <- read_csv(here("input", "facebook_data",
+                                "df_crowdtangle.csv")) %>% 
   mutate(id_post = post_url %>% 
            str_extract("posts/\\d+$") %>% 
            str_remove("posts/"),
@@ -30,17 +32,23 @@ df_crowdtangle <- read_csv("input/facebook_data//df_crowdtangle.csv") %>%
 ##### Politicamente
 
 ``` r
-df_politicamente_posts <- read_csv("input/facebook_data/politicamente_be17_v6_posts-facebook.csv") %>% 
+df_politicamente_posts <- read_csv(
+  here("input", "facebook_data", "politicamente_be17_v6_posts-facebook.csv")
+) %>% 
   mutate(id_post = id %>% 
            str_extract("_\\d+$") %>% 
            str_remove("_"))
 
-df_politicamente_codif <- read_csv("input/facebook_data/politicamente_be17_v6_codificaciones.csv")
+df_politicamente_codif <- read_csv(
+  here("input", "facebook_data", "politicamente_be17_v6_codificaciones.csv")
+)
 
-df_politicamente_cands <- read_csv("input/facebook_data/politicamente_be17_v6_candidatos.csv")
+df_politicamente_cands <- read_csv(
+  here("input", "facebook_data", "politicamente_be17_v6_candidatos.csv")
+)
 
 df_politicamente_tweets <- read_csv(
-  "input/facebook_data/politicamente_be17_v6_tweets.csv"
+  here("input", "facebook_data", "politicamente_be17_v6_tweets.csv")
 ) %>% 
   count(twitter_id) %>% 
   rename(n_tweets = n) 
@@ -64,8 +72,10 @@ df_politicamente <- df_politicamente_posts %>%
 ##### Condor URLs
 
 ``` r
-df_condor_urls <- read_delim("input/facebook_data/df_condor_urls.csv", 
-                          ";", escape_double = FALSE, trim_ws = TRUE)
+df_condor_urls <- read_delim(
+  here("input", "facebook_data", "df_condor_urls.csv"), 
+  ";", escape_double = FALSE, trim_ws = TRUE
+)
 
 df_condor_urls <- df_condor_urls %>% 
   mutate(domain = str_remove(parent_domain,"\\..*")) %>% 
@@ -165,7 +175,7 @@ df_ct_pt_urls <- left_join(df_ct_pt_urls, variables)
 Save dataframe
 
 ``` r
-write_rds(df_ct_pt_urls, "proc/01_facebook_data_post.rds")
+write_rds(df_ct_pt_urls, here("proc", "01_facebook_data_post.rds"))
 ```
 
 ### Merge Datasets (candidate level)
@@ -175,7 +185,7 @@ analysis. This dataset only includes candidates competing in the
 districts 10, 11 and 13, which are the focus of this paper.
 
 ``` r
-df_facebook <- read_rds("proc/01_facebook_data_post.rds")  
+df_facebook <- read_rds(here("proc", "01_facebook_data_post.rds"))
 
 df_facebook <- df_facebook %>% 
   filter(candidate_district==10 | candidate_district==11 | candidate_district==13) %>%
@@ -292,5 +302,5 @@ df_facebook_candidate <- df_facebook_candidate %>%
 Save dataframe
 
 ``` r
-write_rds(df_facebook_candidate, "proc/01_facebook_data_candidate.rds")
+write_rds(df_facebook_candidate, here("proc", "01_facebook_data_candidate.rds"))
 ```

@@ -85,7 +85,6 @@ fb_data_candidate_nse$n_posts_deployment[is.na(fb_data_candidate_nse$n_posts_dep
 
 ### Save data
 ```{r}
-
-write_rds(fb_data_post_nse, "proc/02_fb_data_posts_nse.rds")
-write_rds(fb_data_candidate_nse, "proc/02_fb_data_candidate_nse.rds")
+write_rds(fb_data_post_nse, here("proc", "02_fb_data_posts_nse.rds"))
+write_rds(fb_data_candidate_nse, here("proc", "02_fb_data_candidate_nse.rds"))
 ```
