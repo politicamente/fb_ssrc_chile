@@ -51,10 +51,13 @@
     + `proc/03_facebook_data_candidate_nse_cl.rds`
     + `proc/03_facebook_data_posts_nse_cl.rds`
   + **Outputs:** 
-    + ... (maps)
+    + `output/04_map_c1.png`
+    + `output/04_map_c2.png`
+    + `output/04_map_c3.png`
 - **`05_estimate_stm.R`**
   + **Description:** Estimates the structural topic model shown in the white paper.
   + **Inputs:** 
-    + ... (dataset outputs from 03)
+    + `proc/03_facebook_data_candidate_nse_cl.rds`
+    + `proc/03_facebook_data_posts_nse_cl.rds`
   + **Outputs:** 
     + `output/05_fig7_topics.png`.
