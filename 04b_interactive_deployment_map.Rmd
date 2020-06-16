@@ -303,7 +303,7 @@ htmlfile <- list.files(pattern="\\.html$")
 
 file.copy(htmlfile, "output")
 
-file.remove(htmlfile)
+#file.remove(htmlfile)
 
 ```
 
