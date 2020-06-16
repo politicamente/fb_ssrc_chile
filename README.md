@@ -4,7 +4,7 @@
 
 **Authors:** Luna, Pérez, Toro, Rosenblatt, Alcatruz, Bro, Cruz, and Escobar
 
-**Version:** 0.2. The following corrections were made from v0.1 (that do not change the main results of the white paper): 
+**Version:** 0.2. The following minor corrections were made from v0.1: 
   + Two candidates (out of 80) had to be excluded from k-means clustering, as they are not present in Políticamente's dataset. 
   + Whenever possible, now post messages are retrieved from Políticamente, as Crowdtangle's are sometimes trimmed. This increases the words that serve as input to the structural topic model.
 
