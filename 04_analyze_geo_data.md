@@ -110,7 +110,7 @@ posts_deployment_nse <- posts_deployment_nse %>%
 
 fb_data_candidate_nse_cl <- fb_data_candidate_nse_cl %>%
   
-  select(candidate, cluster_sel)
+  select(candidate, cluster_sel,candidate_district, party)
 
 posts_geo_nse_cl <- posts_deployment_nse %>%
   
