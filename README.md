@@ -4,7 +4,8 @@
 
 **Authors:** Luna, Pérez, Toro, Rosenblatt, Alcatruz, Bro, Cruz, and Escobar
 
-**Version:** 0.1
+**Version:** 0.2. 
+  + The following correction was made from 0.1: 2 candidates (out of 80) had to be dropped from the k-means clustering, as they are not present in Políticamente's dataset. This does not change the main results of the white paper.
 
 
 ## Scripts
@@ -33,19 +34,22 @@
     + `proc/02_facebook_data_candidate_nse.rds`
     + `proc/02_facebook_data_posts_nse.rds`
     + `proc/02_posts_deployment_nse.csv`
-- **`03_analyze_clusters.R`**
+- **`03_analyze_clusters.Rmd`**
   + **Description:** Executes k-means clustering and generates graphs related to them. Also outputs datasets at the post and candidate levels (with clustering information).
   + **Inputs:** 
-    + ... (outputs from 02)
+    + `proc/02_facebook_data_candidate_nse.rds`
+    + `proc/02_facebook_data_posts_nse.rds`
   + **Outputs:**
     + `output/03_fig3_clusters_factors.png` 
     + `output/03_fig4_clusters_candidate_vars.png` 
     + `output/03_fig6_clusters_campaign_vars.png`
-    + (+ 2 datasets)
+    + `proc/03_facebook_data_candidate_nse_cl.rds`
+    + `proc/03_facebook_data_posts_nse_cl.rds`
 - **`04_analyze_geo_data.R`**
   + **Description:** Generates maps shown in the white paper.
   + **Inputs:** 
-    + ... (dataset outputs from 03)
+    + `proc/03_facebook_data_candidate_nse_cl.rds`
+    + `proc/03_facebook_data_posts_nse_cl.rds`
   + **Outputs:** 
     + ... (maps)
 - **`05_estimate_stm.R`**
