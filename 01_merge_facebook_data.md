@@ -7,7 +7,7 @@ This script integrates multiple sources, compiling Facebook data of the
 1.  `df_crowdtangle`: facebook data from crowdtangle API
 2.  `politicamente`: three datasets with post, coding of these posts and
     candidate data
-3.  `df_condor_urls`: vshared urls by candidates from the condor dataset
+3.  `df_condor_urls`: shared urls by candidates from the condor dataset
 
 <!-- end list -->
 
@@ -17,11 +17,14 @@ library(tidyverse)
 ```
 
 ##### Crowdtangle
+
 ``` r
 df_crowdtangle <- read_csv("input/facebook_data//df_crowdtangle.csv") %>% 
   mutate(id_post = post_url %>% 
            str_extract("posts/\\d+$") %>% 
-           str_remove("posts/"))
+           str_remove("posts/"),
+         d_ct = 1,
+         d_pol = 0)
 ```
 
 ##### Politicamente
@@ -35,6 +38,12 @@ df_politicamente_posts <- read_csv("input/facebook_data/politicamente_be17_v6_po
 df_politicamente_codif <- read_csv("input/facebook_data/politicamente_be17_v6_codificaciones.csv")
 
 df_politicamente_cands <- read_csv("input/facebook_data/politicamente_be17_v6_candidatos.csv")
+
+df_politicamente_tweets <- read_csv(
+  "input/facebook_data/politicamente_be17_v6_tweets.csv"
+) %>% 
+  count(twitter_id) %>% 
+  rename(n_tweets = n) 
 ```
 
 ``` r
@@ -42,15 +51,14 @@ df_politicamente <- df_politicamente_posts %>%
   left_join(df_politicamente_codif) %>% 
   select(id_post, mensaje_id, facebook_id, everything(), -id) %>% 
   left_join(df_politicamente_cands, by = "facebook_id") %>% 
-  select(
-    id_post, facebook_id, from_name, created_time, message,
+  left_join(df_politicamente_tweets)  %>% 
+  select(id_post, facebook_id, from_name, created_time, message,
     type, link, matches("_count"),
     matches("^codif_"), 
     candidato:distrito_dip, partido, d_mujer, nacimiento, coalicion, 
     gasto_total, gasto_rrss, gasto_rrss, gasto_rrss_pct, 
-    ingreso_total, votos, votos_pct, d_incumbente_gen, d_gano
-  ) %>% 
-  mutate(d_pol = 1L, d_ct = 0)
+    ingreso_total, votos, votos_pct, d_incumbente_gen, d_gano, n_tweets) %>% 
+  mutate(d_pol = 1, d_ct = 0) 
 ```
 
 ##### Condor URLs
@@ -65,7 +73,7 @@ df_condor_urls <- df_condor_urls %>%
          url_blurb = share_main_blurb, contains("feedback"))
 ```
 
-### Merge Datasets (Post Level)
+### Merge Datasets (post level)
 
 First, we prepare `df_crowdtangle` data
 
@@ -77,21 +85,16 @@ df_crowdtangle_std <- df_crowdtangle %>%
          #new CT variables:
          link_text = post_link_test, link_description, overperforming_score,
          #candidate level
-         candidate = candidato, candidate_district,
-         coalition = candidate_list, list = lista, party = candidate_party, 
-         candidate_birth = nacimiento, d_women = candidate_gender,
+         candidate = candidate_name, candidate_district,
+         coalition = candidate_list, party = candidate_party, 
+         candidate_birth = nacimiento, d_female = candidate_gender,
          d_incumbent_gen = candidate_incumbent,
          d_elected = candidate_elected, votes = candidate_votes,
          spending_total = candidate_spending,
          # reactions
          comments_count = comments,
          shares_count = shares,
-         likes_count = likes,
-         love_count = reaction_love,                 
-         wow_count = reaction_wow,                 
-         haha_count = reaction_haha,                 
-         sad_count = reaction_sad,                 
-         angry_count = reaction_angry
+         likes_count = likes
   ) %>% 
   mutate(created_time = created_time %>% 
            str_remove(" EDT") %>% 
@@ -99,7 +102,13 @@ df_crowdtangle_std <- df_crowdtangle %>%
            lubridate::with_tz("UTC"),
          candidate_birth = lubridate::ymd(candidate_birth),
          candidate = str_to_upper(candidate),
-         d_ct = 1L, d_pol = 0L)
+         d_ct = 1L, d_pol = 0L) %>% 
+  mutate(coalition = 
+           case_when(coalition == "Chile Vamos" ~ "ChV",
+                                    coalition == "Convergencia Democratica" ~ "DC",
+                                    coalition == "Frente Amplio" ~ "FA",
+                                    coalition == "La Fuerza de la Mayoria" ~ "FdM",
+                                    coalition %in% c("Coalicion Regionalista Verde","Independiente","Por todo Chile","Por Todo Chile","PTR","Sumemos","Union Patriotica",NA) ~ "Otro"))
 ```
 
 Prepare `df_politicamente` data
@@ -114,16 +123,15 @@ df_politicamente <- df_politicamente %>%
          #candidate level:
          candidate = candidato, candidate_district = distrito_dip,
          coalition = coalicion, party = partido, 
-         candidate_birth = nacimiento, d_women = d_mujer,
+         candidate_birth = nacimiento, d_female = d_mujer,
          d_incumbent_gen = d_incumbente_gen,
          d_elected = d_gano, spending_total = gasto_total, 
          spending_socialmedia = gasto_rrss,
          spending_socialmedia_pct = gasto_rrss_pct,
          income_total = ingreso_total, votes = votos, votes_pct = votos_pct,
-         d_pol, d_ct,
+         d_pol, d_ct,n_tweets,
          #reactions:
-         comments_count, shares_count, likes_count, love_count, wow_count,
-         haha_count, sad_count, angry_count) 
+         comments_count, shares_count, likes_count)
 ```
 
 Now we merge the datasets
@@ -160,7 +168,8 @@ Save dataframe
 write_rds(df_ct_pt_urls, "proc/01_facebook_data_post.rds")
 ```
 
-### Merge Datasets (Candidate Level)
+### Merge Datasets (candidate level)
+
 Now we are going to group the data at the candidate level for future
 analysis. This dataset only includes candidates competing in the
 districts 10, 11 and 13, which are the focus of this paper.
@@ -173,7 +182,9 @@ df_facebook <- df_facebook %>%
   mutate_if(is.numeric, function(x) ifelse(is.infinite(x), 0, x))
 ```
 
-First we summarise the number of posts per candidate and then the number of each type of posts by candidate
+First we summarise number of posts by candidate and then the number of
+posts of each type (from codif\_macro\_1) by candidate
+
 ``` r
 # first we group by candidate
 
@@ -226,36 +237,11 @@ df_shares <- df_facebook  %>%
   group_by(candidate) %>%
   summarise(sum_shares=sum(shares_count)) 
 
-df_loves <- df_facebook  %>%
-  group_by(candidate) %>%
-  summarise(sum_loves=sum(love_count)) 
-
-df_haha <- df_facebook  %>%
-  group_by(candidate) %>%
-  summarise(sum_hahas=sum(haha_count)) 
-
-df_wow <- df_facebook  %>%
-  group_by(candidate) %>%
-  summarise(sum_wows=sum(wow_count)) 
-
-df_sad <- df_facebook  %>%
-  group_by(candidate) %>%
-  summarise(sum_sads=sum(sad_count)) 
-
-df_angry <- df_facebook  %>%
-  group_by(candidate) %>%
-  summarise(sum_angries=sum(angry_count)) 
-
 # merge with the previosu dataset
 
 df_facebook_all <- df_facebook_all %>%
   left_join(., df_likes, by="candidate") %>%
-  left_join(., df_angry, by="candidate") %>%
   left_join(., df_comments, by="candidate") %>%
-  left_join(., df_haha, by="candidate") %>%
-  left_join(., df_loves, by="candidate") %>%
-  left_join(., df_sad, by="candidate") %>%
-  left_join(., df_wow, by="candidate") %>%
   left_join(., df_shares, by="candidate") 
 ```
 
@@ -272,54 +258,39 @@ df_commentsm <- df_facebook  %>%
 
 df_sharesm <- df_facebook  %>%
   group_by(candidate) %>%
-  summarise(mean_shares=mean(shares_count)) 
-
-df_lovesm <- df_facebook  %>%
-  group_by(candidate) %>%
-  summarise(mean_loves=mean(love_count)) 
-
-df_haham <- df_facebook  %>%
-  group_by(candidate) %>%
-  summarise(mean_hahas=mean(haha_count)) 
-
-df_wowm <- df_facebook  %>%
-  group_by(candidate) %>%
-  summarise(mean_wows=mean(wow_count)) 
-
-df_sadm <- df_facebook  %>%
-  group_by(candidate) %>%
-  summarise(mean_sads=mean(sad_count)) 
-
-df_angrym <- df_facebook  %>%
-  group_by(candidate) %>%
-  summarise(mean_angries=mean(angry_count)) 
+  summarise(mean_shares=mean(shares_count))
 
 ## Merge
 df_facebook_all <- df_facebook_all %>%
   left_join(., df_likesm, by="candidate") %>%
-  left_join(., df_angrym, by="candidate") %>%
   left_join(., df_commentsm, by="candidate") %>%
-  left_join(., df_haham, by="candidate") %>%
-  left_join(., df_lovesm, by="candidate") %>%
-  left_join(., df_sadm, by="candidate") %>%
-  left_join(., df_wowm, by="candidate") %>%
   left_join(., df_sharesm, by="candidate")
 ```
 
-The final step is merging with candidate level variables from
-`01_merge_facebook_data_post.rds` and save the new candidate level
-dataset
+The we merge this with candidate-level variables from
+`01_merge_facebook_data_post.rds`
 
 ``` r
 df_facebook <- df_facebook %>% 
-  select(candidate, candidate_district,coalition, list, party,
-         candidate_birth, d_women, d_incumbent_gen,
+  select(candidate, candidate_district,coalition, party,
+         candidate_birth, d_female, d_incumbent_gen,
          d_elected, votes, spending_total, spending_socialmedia, 
-         spending_socialmedia_pct, income_total, votes_pct, candidate_id, candidate_rut)
+         spending_socialmedia_pct, income_total, votes_pct, candidate_id, candidate_rut, n_tweets, d_ct, d_pol)
          
 df_facebook_candidate <- df_facebook_all %>% left_join(df_facebook) %>% 
   distinct(candidate, .keep_all = TRUE)
 
-#Save dataframe 
+#Clean some data:
+df_facebook_candidate <- df_facebook_candidate %>%
+   mutate_if(is.integer,as.double) %>%  
+    mutate(n_posts_programmatic = if_else(d_pol == 1 & is.na(n_posts_programmatic), 0, n_posts_programmatic),
+           n_posts_campaign = if_else(d_pol == 1 & is.na(n_posts_campaign), 0, n_posts_campaign),
+           n_posts_others = if_else(d_pol == 1 & is.na(n_posts_others), 0, n_posts_others),
+           n_posts_politics = if_else(d_pol == 1 & is.na(n_posts_politics), 0, n_posts_politics))
+```
+
+Save dataframe
+
+``` r
 write_rds(df_facebook_candidate, "proc/01_facebook_data_candidate.rds")
 ```
