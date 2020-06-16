@@ -5,7 +5,7 @@
 **Authors:** Luna, Pérez, Toro, Rosenblatt, Alcatruz, Bro, Cruz, and Escobar
 
 **Version:** 0.2. 
-  + The following correction was made from 0.1: 2 candidates (out of 80) had to be dropped from the k-means clustering, as they are not present in Políticamente's dataset. This does not change the main results of the white paper.
+  + The following correction was made from v0.1: two candidates (out of 80) had to be excluded from k-means clustering, as they are not present in Políticamente's dataset. This does not change the main results of the white paper.
 
 
 ## Scripts
