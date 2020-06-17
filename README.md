@@ -12,6 +12,8 @@
   + Tested with R 4.0.0. Required packages: `tidyverse`, `here`, `glue`, `sf`, `RColorBrewer`, `tmap`, `tmaptools`, `janitor`, `tidytext`, `stm`, `ggthemes`, `cowplot`.
   + Tested with Python 3.7.6. Required libraries: `geopandas`, `shapely`, `scipy`, `numpy`, `pandas`.
 
+**Deployment of candidates by clusters:** [Deployment Candidates](https://politicamente.github.io/Deployment_Candidates/) 
+
 ## Scripts
 
 
@@ -27,7 +29,7 @@
     + `proc/01_facebook_data_post.rds`
     + `proc/01_facebook_data_candidate.rds`
 
-- **`02a_get_geo_data.ipynb`** and **`02b_add_geo_data.R`**
+- **`02a_get_geo_data.ipynb`** and **`02b_add_geo_data.Rmd`**
   + **Description:** Geolocate deployment posts, generating datasets at the post and candidate levels (with geographical information).
   + **Inputs:** 
     + `input/geo_data/ibt_geo.shp`
@@ -49,7 +51,7 @@
     + `output/03_fig6_clusters_campaign_vars.png`
     + `proc/03_facebook_data_candidate_nse_cl.rds`
     + `proc/03_facebook_data_posts_nse_cl.rds`
-- **`04_analyze_geo_data.Rmd`**
+- **`04_analyze_geo_data.Rmd`** and **`04b_interactive_deployment_map.Rmd`**
   + **Description:** Generates maps shown in the white paper.
   + **Inputs:** 
     + `proc/03_facebook_data_candidate_nse_cl.rds`
@@ -58,6 +60,7 @@
     + `output/04_map_c1.png`
     + `output/04_map_c2.png`
     + `output/04_map_c3.png`
+    + `output/index.html`
 - **`05_estimate_stm.Rmd`**
   + **Description:** Estimates the structural topic model shown in the white paper.
   + **Inputs:** 

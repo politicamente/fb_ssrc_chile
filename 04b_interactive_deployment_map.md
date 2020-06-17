@@ -275,7 +275,7 @@ map1 <- leaflet() %>%
 ### Save map
 
 ``` r
-saveWidget(map1,here("index.html"))
+saveWidget(map1, file="index.html")
 webshot(here("index.html"),vwidth = 1920, vheight = 1080, file = here( "04b_capture_map_clusters.png"),
        cliprect = "viewport")
 ```
@@ -287,6 +287,7 @@ webshot(here("index.html"),vwidth = 1920, vheight = 1080, file = here( "04b_capt
 ``` r
 htmlfile <- list.files(pattern="\\.html$")
 pngfile <- list.files(pattern = "\\.png$")
+folder_index <- list.files("index_files")
 file.copy(htmlfile, "output")
 ```
 
@@ -297,6 +298,12 @@ file.copy(htmlfile, "output")
 ```
 
     ## [1] FALSE
+
+``` r
+file.copy(folder_index, "output")
+```
+
+    ## logical(0)
 
 ``` r
 file.remove(htmlfile)
@@ -309,3 +316,9 @@ file.remove(pngfile)
 ```
 
     ## [1] TRUE
+
+``` r
+file.remove(folder_index)
+```
+
+    ## logical(0)
