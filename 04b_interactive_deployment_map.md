@@ -291,13 +291,13 @@ folder_index <- list.files("index_files")
 file.copy(htmlfile, "output")
 ```
 
-    ## [1]  TRUE FALSE  TRUE
+    ## [1] FALSE
 
 ``` r
-file.copy(htmlfile, "output")
+file.copy(pngfile, "output")
 ```
 
-    ## [1] FALSE FALSE FALSE
+    ## [1] FALSE
 
 ``` r
 file.copy(folder_index, "output")
@@ -309,7 +309,7 @@ file.copy(folder_index, "output")
 file.remove(htmlfile)
 ```
 
-    ## [1] TRUE TRUE TRUE
+    ## [1] TRUE
 
 ``` r
 file.remove(pngfile)
