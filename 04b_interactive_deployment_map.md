@@ -22,7 +22,7 @@ Shapefiles: Socioeconomic Level
 ibt <- st_read(here("input","geo_data","ibt", "ibt_geo.shp"))
 ```
 
-    ## Reading layer `ibt_geo' from data source `/home/andres/gdrive/github/fb_ssrc_chile/input/geo_data/ibt/ibt_geo.shp' using driver `ESRI Shapefile'
+    ## Reading layer `ibt_geo' from data source `D:\2020_w\data_facebook\fb_ssrc_chile\input\geo_data\ibt\ibt_geo.shp' using driver `ESRI Shapefile'
     ## Simple feature collection with 54908 features and 4 fields
     ## geometry type:  POLYGON
     ## dimension:      XY
@@ -280,10 +280,6 @@ webshot(here("index.html"),vwidth = 1920, vheight = 1080, file = here( "04b_capt
        cliprect = "viewport")
 ```
 
-    ## qt5ct: using qt5ct plugin
-    ## TypeError: Attempting to change the setter of an unconfigurable property.
-    ## TypeError: Attempting to change the setter of an unconfigurable property.
-
 ![](04b_interactive_deployment_map_files/figure-gfm/unnamed-chunk-10-1.png)<!-- -->
 
 ##### Ext
@@ -295,13 +291,13 @@ folder_index <- list.files("index_files")
 file.copy(htmlfile, "output")
 ```
 
-    ## [1] FALSE
+    ## [1]  TRUE FALSE  TRUE
 
 ``` r
 file.copy(htmlfile, "output")
 ```
 
-    ## [1] FALSE
+    ## [1] FALSE FALSE FALSE
 
 ``` r
 file.copy(folder_index, "output")
@@ -313,7 +309,7 @@ file.copy(folder_index, "output")
 file.remove(htmlfile)
 ```
 
-    ## [1] TRUE
+    ## [1] TRUE TRUE TRUE
 
 ``` r
 file.remove(pngfile)
