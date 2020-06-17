@@ -1,4 +1,4 @@
-Deployment of Candidates by Clusters
+04b - Deployment of Candidates by Clusters
 ================
 
 ### Load libraries
@@ -22,7 +22,7 @@ Shapefiles: Socioeconomic Level
 ibt <- st_read(here("input","geo_data","ibt", "ibt_geo.shp"))
 ```
 
-    ## Reading layer `ibt_geo' from data source `D:\2020_w\data_facebook\fb_ssrc_chile\input\geo_data\ibt\ibt_geo.shp' using driver `ESRI Shapefile'
+    ## Reading layer `ibt_geo' from data source `/home/andres/gdrive/github/fb_ssrc_chile/input/geo_data/ibt/ibt_geo.shp' using driver `ESRI Shapefile'
     ## Simple feature collection with 54908 features and 4 fields
     ## geometry type:  POLYGON
     ## dimension:      XY
@@ -43,11 +43,11 @@ Shapefiles: Socioeconomic Level
 ibt <- ibt[!is.na(ibt$nse),]
 
 ibt_10_11_13 <- ibt %>%
-  
-  filter(ibt, comuna %in% 
+  filter(comuna %in% 
            c("PROVIDENCIA", "ÑUÑOA", "SANTIAGO","MACUL","SAN JOAQUÍN",
-                            "LA GRANJA","LAS CONDES", "VITACURA", "LO BARNECHEA","LA REINA","PEÑALOLÉN",
-                            "EL BOSQUE", "SAN RAMÓN", "PEDRO AGUIRRE CERDA","SAN MIGUEL","LO ESPEJO", "LA CISTERNA"))
+             "LA GRANJA","LAS CONDES", "VITACURA", "LO BARNECHEA",
+             "LA REINA","PEÑALOLÉN", "EL BOSQUE", "SAN RAMÓN", 
+             "PEDRO AGUIRRE CERDA","SAN MIGUEL","LO ESPEJO", "LA CISTERNA"))
 ```
 
 Data: Filter by clusters.
@@ -279,6 +279,10 @@ saveWidget(map1, file="index.html")
 webshot(here("index.html"),vwidth = 1920, vheight = 1080, file = here( "04b_capture_map_clusters.png"),
        cliprect = "viewport")
 ```
+
+    ## qt5ct: using qt5ct plugin
+    ## TypeError: Attempting to change the setter of an unconfigurable property.
+    ## TypeError: Attempting to change the setter of an unconfigurable property.
 
 ![](04b_interactive_deployment_map_files/figure-gfm/unnamed-chunk-10-1.png)<!-- -->
 

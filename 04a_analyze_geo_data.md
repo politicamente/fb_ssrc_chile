@@ -1,4 +1,4 @@
-Analyze geo data
+04a - Analyze geo data
 ================
 
 ### Load libraries
@@ -210,7 +210,7 @@ cluster_3 <- tmap_nsec3  + tm_shape(sites_c3) +
 cluster_1
 ```
 
-![](04_analyze_geo_data_files/figure-gfm/unnamed-chunk-11-1.png)<!-- -->
+![](04a_analyze_geo_data_files/figure-gfm/unnamed-chunk-11-1.png)<!-- -->
 
 ### Cluster 2
 
@@ -218,7 +218,7 @@ cluster_1
 cluster_2
 ```
 
-![](04_analyze_geo_data_files/figure-gfm/unnamed-chunk-12-1.png)<!-- -->
+![](04a_analyze_geo_data_files/figure-gfm/unnamed-chunk-12-1.png)<!-- -->
 
 ### Cluster 3
 
@@ -226,7 +226,7 @@ cluster_2
 cluster_3
 ```
 
-![](04_analyze_geo_data_files/figure-gfm/unnamed-chunk-13-1.png)<!-- -->
+![](04a_analyze_geo_data_files/figure-gfm/unnamed-chunk-13-1.png)<!-- -->
 
 ### Save plots
 

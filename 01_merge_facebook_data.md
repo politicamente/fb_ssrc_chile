@@ -1,4 +1,4 @@
-Merge Facebook Data
+01 - Merge Facebook Data
 ================
 
 This script integrates multiple sources, compiling Facebook data of the
