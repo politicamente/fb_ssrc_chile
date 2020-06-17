@@ -293,5 +293,7 @@ file.copy(htmlfile, "output")
     ## [1] FALSE
 
 ``` r
-#file.remove(htmlfile)
+file.remove(htmlfile)
 ```
+
+    ## [1] TRUE
