@@ -61,6 +61,7 @@
     + `output/04_map_c2.png`
     + `output/04_map_c3.png`
     + `output/index.html`
+    + `output/04b_capture_map_clusters.png`
 - **`05_estimate_stm.Rmd`**
   + **Description:** Estimates the structural topic model shown in the white paper.
   + **Inputs:** 
