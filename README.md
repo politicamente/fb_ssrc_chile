@@ -9,7 +9,7 @@
   + Whenever possible, now post messages are retrieved from Políticamente, as Crowdtangle's are sometimes trimmed. This increases the words that serve as input to the structural topic model.
 
 **Replication instructions:** Download/clone this repository and run its scripts in order, maintaining the folder structure (for example, using RStudio and Jupyter Lab).
-  + Tested with R 4.0.0. Required packages: `tidyverse`, `here`, `glue`, `sf`, `RColorBrewer`, `tmap`, `tmaptools`, `janitor`, `tidytext`, `stm`, `ggthemes`, `cowplot`, `dplyr`, `readr`, `leaflet`, `here`, `htmlwidgets`, `htmltools`, `webshot`.
+  + Tested with R 4.0.0. Required packages: `tidyverse`, `here`, `glue`, `sf`, `RColorBrewer`, `tmap`, `tmaptools`, `janitor`, `tidytext`, `stm`, `ggthemes`, `cowplot`, `leaflet`, `here`, `htmlwidgets`, `htmltools`, `webshot`.
   + Tested with Python 3.7.6. Required libraries: `geopandas`, `shapely`, `scipy`, `numpy`, `pandas`.
 
 [Interactive map with deployment of candidates by cluster](https://politicamente.github.io/Deployment_Candidates/) 
