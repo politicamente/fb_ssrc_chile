@@ -270,7 +270,7 @@ topics_by_cluster$terms_eng <- recode(topics_by_cluster$terms,
   "salud, atención, pública, primaria, sistema, hospital, acceso" = "health, care, public, primary, system, hospital, access",
   "diputado, compromiso, candidato, piñera, presidente, gobierno, nuñez" = "deputy, commitment, candidate, piñera, president, government, nuñez",
   "educación, calidad, estudiantes, profesores, gratuita, universidades, financiamiento" = "education, quality, students, teachers, free, universities, financing",
-  "país, chile, tipo, aporte, desarrollo, mil, forma" = "country, chile, type, contribution, development, thousand, forma",
+  "país, chile, tipo, aporte, desarrollo, mil, forma" = "country, chile, type, contribution, development, thousand, way",
   "recursos, trabajadores, públicos, generar, gobierno, naturales, condiciones" = "resources, workers, public, generate, government, natural, conditions",
   "cultura, arte, cultural, galería, artísticas, diputado, culturales" = "culture, art, cultural, gallery, artistic, deputy, cultural",
   "vivir, chile, ecológico, ambiente, elige, sustentable, desarrollo" = "live, chile, ecological, environment, choose, sustainable, development",
@@ -294,12 +294,12 @@ p_topics_by_cluster <- ggplot(
   geom_text(hjust = -.01, nudge_y = 0.0005, size = 3) +
   facet_wrap(~cluster_sel, nrow = 3, scales = "free_y") +
   scale_x_continuous(expand = c(0,0),
-                     limits = c(0, 0.2),
-                     breaks = seq(0, 0.09, by = 0.01),
+                     limits = c(0, 0.24),
+                     breaks = seq(0, 0.13, by = 0.01),
                      labels = scales::percent_format(accuracy = 1)) +
   scale_y_reordered() +
   cowplot::theme_minimal_grid() +
-  theme(panel.grid = element_blank()) + 
+  theme(panel.grid = element_blank(), axis.text.x = element_text(angle = 90)) + 
   labs(x = expression(paste("Mean ", gamma)),
        y = "",
        title = "Most prevalent programmatic topics in each cluster",
