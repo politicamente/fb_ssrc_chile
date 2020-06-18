@@ -214,6 +214,9 @@ td_gamma_complete <- td_gamma %>%
               select(document = id_post, candidate_id)) %>% 
   left_join(candidates %>% select(candidate_id, cluster_sel)) %>% 
   left_join(gamma_terms)
+
+write_rds(td_gamma_complete, here("proc", "05_gamma_complete.rds"),
+          compress = "gz")
 ```
 
 ```{r}

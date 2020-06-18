@@ -246,6 +246,11 @@ td_gamma_complete <- td_gamma %>%
     ## Joining, by = "topic"
 
 ``` r
+write_rds(td_gamma_complete, here("proc", "05_gamma_complete.rds"),
+          compress = "gz")
+```
+
+``` r
 topics_by_cluster <- td_gamma_complete %>% 
   filter(!is.na(cluster_sel)) %>% 
   group_by(cluster_sel, topic, topic_label, terms) %>% 
